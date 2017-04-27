@@ -1,0 +1,10 @@
+{
+    "description": {
+        "description": "The extension's description.",
+        "message": "This extension allows you to send tweets from your browser to an XTV server for a live broadcast"
+    },
+    "quote": {
+        "description": "Sends the Tweet to XTV for use in a Live Broadcast",
+        "message": "Send to XTV"
+    }
+}
