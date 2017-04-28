@@ -32,13 +32,18 @@ function getTweetId(element) {
     return $(element).closest('.tweet').attr('data-tweet-id')
 }
 
+function getUserHandle() {
+    return $('.DashboardProfileCard-screenname').text().trim()
+}
+
 function onClickSendToXTV(button) {
     if($(button).text() == 'Done!') {
         alert("Tweet Already Submitted")
     } else {
         tweet_id = getTweetId(button)
+        user_handle = getUserHandle()
 
-        chrome.runtime.sendMessage({'type': 'tweet', 'twitter-post-id': tweet_id}, function(response) {
+        chrome.runtime.sendMessage({'type': 'tweet', 'tweet_id': tweet_id, "user_handle": user_handle}, function(response) {
             console.log(response)
             if (response.success) {
                 $(button).text('Done!')
