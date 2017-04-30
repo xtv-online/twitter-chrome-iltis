@@ -1,6 +1,6 @@
-addSendToXTV()
+addSendToXTV();
 setInterval(addSendToXTV, 500);
-addDelegateSendToXTVClickListeners()
+addDelegateSendToXTVClickListeners();
 
 function addSendToXTV() {
     var to_add =   `<div class="ProfileTweet-action ProfileTweet-action--reply send-to-xtv" style="float: right; margin-right: 10px; margin-top: 3px;">
@@ -14,39 +14,49 @@ function addSendToXTV() {
                     </div>`;
     
     $('.ProfileTweet-actionList.js-actions').each(function(index) {
-        if ($(this).find('.send-to-xtv').length == 0) {
+        if ($(this).find('.send-to-xtv').length === 0) {
             $(this).append(to_add)
         }
-    })
+    });
 }
 
 function addDelegateSendToXTVClickListeners() {
     document.querySelector('#page-container').addEventListener('click', function(e) {
         if (e.target.matches('.send-to-xtv-text')) {
-            onClickSendToXTV($(e.target))
+            onClickSendToXTV($(e.target));
         }
     }, true);
 }
 
 function getTweetId(element) {
-    return $(element).closest('.tweet').attr('data-tweet-id')
+    return $(element).closest('.tweet').attr('data-tweet-id');
 }
 
-function getUserHandle() {
-    return $('.DashboardProfileCard-screenname').text().trim()
+function getPageData() {
+    return JSON.parse($('#init-data').val());
 }
+
+page_data = getPageData()
 
 function onClickSendToXTV(button) {
     if($(button).text() == 'Done!') {
-        alert("Tweet Already Submitted")
+        alert("Tweet Already Submitted");
     } else {
-        tweet_id = getTweetId(button)
-        user_handle = getUserHandle()
+        data_to_send = {
+            'type': 'tweet',
+            'tweet_id': getTweetId(button),
+            'user' : {
+                'fullName': page_data.fullName,
+                'screenName': page_data.screenName,
+                'userId': page_data.userId
+            }
+        }
 
-        chrome.runtime.sendMessage({'type': 'tweet', 'tweet_id': tweet_id, "user_handle": user_handle}, function(response) {
-            console.log(response)
+        chrome.runtime.sendMessage(data_to_send, function(response) {
+            console.log(data_to_send);
+            console.log(response);
             if (response.success) {
-                $(button).text('Done!')
+                $(button).text('Done!');
             }
         });
     }  
