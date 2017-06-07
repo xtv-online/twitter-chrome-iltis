@@ -5,5 +5,4 @@ Inspired heavily by [Twitter Quote Button](https://github.com/flawyte/twitter-qu
 
 ## ToDo
 
-* iltis API endpoint
 * Settings page
